@@ -1,4 +1,9 @@
 import { world, system } from "@minecraft/server";
+import { Tests } from "test/test_main.js";
+
+// global variables to run test or debug script
+var debug = true;
+var test = false;
 
 function mainTick() {
     try {
@@ -14,4 +19,17 @@ function mainTick() {
     system.run(mainTick);
 }
 
-system.run(mainTick);
+if (debug) {
+    world.sendMessage("Debug mode is enabled");
+    system.run(mainTick);
+}
+
+if (test) {
+    world.sendMessage("Test mode is enabled");
+    try {
+        Tests.runTests();
+    }
+    catch (e) {
+        world.sendMessage("Error: " + e);
+    }
+}
